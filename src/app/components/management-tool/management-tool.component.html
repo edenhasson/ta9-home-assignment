@@ -1,0 +1,43 @@
+<div class="manage-tool-container">
+    <div class="tool-bar">
+        <div class="input-container">
+            <input type="text" (input)="onItemSearch($event)" placeholder="Search..." class="search-input" />
+        </div>
+        <div class="button-container">
+            <button mat-button (click)="openDialog(true)">New</button>
+            <button mat-button (click)="openDialog(false)" [disabled]="isEditButtonDisabled || !isGridShown">Edit</button>
+            <button mat-button (click)="viewToggle()">{{isGridShown ? 'Tile': 'Grid'}}</button>
+        </div>
+    </div>
+    @if(allItems$ | async; as rowData) {  
+        <div class="content-container">
+            @if(isGridShown) {
+                <ag-grid-angular #grid
+                style="width: 100%; height: 400px;"
+                [class]="themeClass"
+                [columnDefs]="colDef"
+                [rowData]="filterItems(rowData, searchString)"
+                [pagination]="pagination"
+                [paginationPageSize]="paginationPageSize"
+                [paginationPageSizeSelector]="paginationPageSizeSelector"
+                [defaultColDef]="{
+                    sortable: true,
+                    filter: true,
+                    resizable: true,
+                    flex: 1
+                }"
+                (selectionChanged)="onSelectionChanged()"
+                rowSelection='single'
+                ></ag-grid-angular>
+        
+            }
+            @else {
+                <div class="tile-view-container">
+                    @for(item of filterItems(rowData, searchString); track item.id) {
+                      <app-card-item [item]="item" (click)="openDialog(false,item)"></app-card-item>
+                    }
+                  </div>
+            }    
+        </div>      
+    }
+</div> 

@@ -1,0 +1,22 @@
+<div class="create-item-container">
+    <h3>{{data.isNew ? 'Create New Item' : 'Edit Item'}}</h3>
+    <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
+        <div class="inputs-container">
+            <div class="form-row">
+                <div class="form-group name-container">
+                    <label for="nameInput">Name</label>
+                    <input type="text" id="nameInput" formControlName="name" class="form-control" placeholder="Name..."/>
+                </div>
+                <div class="form-group color-container">
+                    <label for="colorInput">Color</label>
+                    <input type="color" id="colorInput" formControlName="color" class="form-control color-input"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="descriptionInput">Description</label>
+                <textarea id="descriptionInput" formControlName="description" class="form-control" placeholder="Description..."></textarea>
+            </div>
+        </div>
+        <button type="submit" [disabled]="!addItemForm.valid">Submit</button>
+    </form>
+</div>
